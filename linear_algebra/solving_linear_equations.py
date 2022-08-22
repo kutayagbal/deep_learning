@@ -1,5 +1,6 @@
 import random
 import fractions
+import copy
 
 
 def random_matrix(row, col, limit):
@@ -152,19 +153,33 @@ def reduce_to_identity_matrix(matrix, vector):
                     if zero_row(matrix, vector, j):
                         print_matrix(matrix)
                         print_vector(vector)
-                        return
-    print_matrix(matrix)
-    print_vector(vector)
+                        return False
+    # print_matrix(matrix)
+    # print_vector(vector)
+    return True
 
 
-for i in range(100):
-    M1 = random_matrix(5, 5, 10)
-    V1 = random_vector(5, 10)
-    print_matrix(M1)
-    print_vector(V1)
-    reduce_to_identity_matrix(M1, V1)
-    print("###################################################")
+M_start = []
+V_start = []
+M_reduced = []
+V_reduced = []
+no_solution_count = 0
+for i in range(100000):
+    M_start = random_matrix(5, 5, 10)
+    V_start = random_vector(5, 10)
 
+    M_reduced = copy.deepcopy(M_start)
+    V_reduced = copy.deepcopy(V_start)
+    if not reduce_to_identity_matrix(M_reduced, V_reduced):
+        print_matrix(M_start)
+        print_vector(V_start)
+        print_matrix(M_reduced)
+        print_vector(V_reduced)
+        no_solution_count += 1
+        print("###################################################")
+
+
+print(f'no_solution_count: {no_solution_count}')
 
 
 
